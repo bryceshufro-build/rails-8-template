@@ -18,6 +18,8 @@ gem "http"                            # Simple HTTP client for APIs
 gem "rollbar"                         # Error tracking in production
 gem "appdev_support"                  # Learning helpers (nicer error messages, etc.)
 
+gem "devise"
+
 group :development, :test do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude" # Ruby debugger
   gem "rspec-rails", "~> 7.1.1"       # Testing framework
