@@ -1,4 +1,5 @@
 class ApplicationsController < ApplicationController
+  before_action :authenticate_user!
   def index
     matching_applications = Application.all
 
