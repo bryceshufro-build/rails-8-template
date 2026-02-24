@@ -1,2 +1,25 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>Apartment Pass-Down</h1>
+
+<% if user_signed_in? %>
+  <p>Signed in as <%= current_user.email %></p>
+
+  <p>
+    <%= link_to "Browse listings", "/listings" %>
+  </p>
+
+  <p>
+    <%= link_to "Post a listing", "/listings/new" %>
+  </p>
+
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+<% else %>
+  <p>
+    <%= link_to "Sign up", new_user_registration_path %>
+    |
+    <%= link_to "Sign in", new_user_session_path %>
+  </p>
+
+  <p>
+    <%= link_to "Browse listings", "/listings" %>
+  </p>
+<% end %>

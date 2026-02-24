@@ -10,9 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_23_235344) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_24_000210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "applications", force: :cascade do |t|
+    t.integer "listing_id"
+    t.integer "user_id"
+    t.text "message_to_owner"
+    t.integer "priority_rank"
+    t.string "status"
+    t.text "decision_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.integer "owner_id"
+    t.string "title"
+    t.string "address"
+    t.string "neighborhood"
+    t.integer "bedrooms"
+    t.decimal "bathrooms"
+    t.integer "monthly_rent"
+    t.date "available_on"
+    t.date "lease_end_on"
+    t.text "description"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "application_id"
+    t.integer "sender_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false

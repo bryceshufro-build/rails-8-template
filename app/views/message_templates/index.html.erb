@@ -1,0 +1,59 @@
+<h1>
+  List of all messages
+</h1>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      Add a new message
+    </h2>
+  </header>
+
+  <form action="/insert_message" method="post">
+    <div>
+      <label for="application_id_box">
+        Application
+      </label>
+
+      <input type="text" id="application_id_box" name="query_application_id">
+    </div>
+
+    <div>
+      <label for="sender_id_box">
+        Sender
+      </label>
+
+      <input type="text" id="sender_id_box" name="query_sender_id">
+    </div>
+
+    <div>
+      <label for="body_box">
+        Body
+      </label>
+
+      <input type="text" id="body_box" name="query_body">
+    </div>
+
+    <button type="submit">
+      Create message
+    </button>
+  </form>
+</article>
+
+<hr>
+
+<article>
+  <ul>
+    <% @list_of_messages.each do |a_message| %>
+      <li>
+        <a href="/messages/<%= a_message.id %>">
+          Message #<%= a_message.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>

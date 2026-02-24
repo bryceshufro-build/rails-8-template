@@ -1,0 +1,141 @@
+<h1>
+  Application #<%= @the_application.id %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/applications">
+      Go back
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_application/<%= @the_application.id %>">
+      Delete application
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Listing
+    </dt>
+    <dd>
+      <%= @the_application.listing_id %>
+    </dd>
+
+    <dt>
+      User
+    </dt>
+    <dd>
+      <%= @the_application.user_id %>
+    </dd>
+
+    <dt>
+      Message to owner
+    </dt>
+    <dd>
+      <%= @the_application.message_to_owner %>
+    </dd>
+
+    <dt>
+      Priority rank
+    </dt>
+    <dd>
+      <%= @the_application.priority_rank %>
+    </dd>
+
+    <dt>
+      Status
+    </dt>
+    <dd>
+      <%= @the_application.status %>
+    </dd>
+
+    <dt>
+      Decision notes
+    </dt>
+    <dd>
+      <%= @the_application.decision_notes %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_application.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_application.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
+<article>
+  <header>
+    <h2>
+      Edit application
+    </h2>
+  </header>
+
+  <form action="/modify_application/<%= @the_application.id %>"  method="post" >
+    <div>
+      <label for="listing_id_box">
+        Listing
+      </label>
+
+      <input type="text" id="listing_id_box" name="query_listing_id" value="<%= @the_application.listing_id %>">
+    </div>
+
+    <div>
+      <label for="user_id_box">
+        User
+      </label>
+
+      <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_application.user_id %>">
+    </div>
+
+    <div>
+      <label for="message_to_owner_box">
+        Message to owner
+      </label>
+
+      <input type="text" id="message_to_owner_box" name="query_message_to_owner" value="<%= @the_application.message_to_owner %>">
+    </div>
+
+    <div>
+      <label for="priority_rank_box">
+        Priority rank
+      </label>
+
+      <input type="text" id="priority_rank_box" name="query_priority_rank" value="<%= @the_application.priority_rank %>">
+    </div>
+
+    <div>
+      <label for="status_box">
+        Status
+      </label>
+
+      <input type="text" id="status_box" name="query_status" value="<%= @the_application.status %>">
+    </div>
+
+    <div>
+      <label for="decision_notes_box">
+        Decision notes
+      </label>
+
+      <input type="text" id="decision_notes_box" name="query_decision_notes" value="<%= @the_application.decision_notes %>">
+    </div>
+
+    <button type="submit">
+      Update application
+    </button>
+  </form>
+</article>
+
+<hr>

@@ -1,0 +1,83 @@
+<h1>
+  List of all applications
+</h1>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      Add a new application
+    </h2>
+  </header>
+
+  <form action="/insert_application" method="post">
+    <div>
+      <label for="listing_id_box">
+        Listing
+      </label>
+
+      <input type="text" id="listing_id_box" name="query_listing_id">
+    </div>
+
+    <div>
+      <label for="user_id_box">
+        User
+      </label>
+
+      <input type="text" id="user_id_box" name="query_user_id">
+    </div>
+
+    <div>
+      <label for="message_to_owner_box">
+        Message to owner
+      </label>
+
+      <input type="text" id="message_to_owner_box" name="query_message_to_owner">
+    </div>
+
+    <div>
+      <label for="priority_rank_box">
+        Priority rank
+      </label>
+
+      <input type="text" id="priority_rank_box" name="query_priority_rank">
+    </div>
+
+    <div>
+      <label for="status_box">
+        Status
+      </label>
+
+      <input type="text" id="status_box" name="query_status">
+    </div>
+
+    <div>
+      <label for="decision_notes_box">
+        Decision notes
+      </label>
+
+      <input type="text" id="decision_notes_box" name="query_decision_notes">
+    </div>
+
+    <button type="submit">
+      Create application
+    </button>
+  </form>
+</article>
+
+<hr>
+
+<article>
+  <ul>
+    <% @list_of_applications.each do |an_application| %>
+      <li>
+        <a href="/applications/<%= an_application.id %>">
+          Application #<%= an_application.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>

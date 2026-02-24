@@ -1,0 +1,216 @@
+<h1>
+  Listing #<%= @the_listing.id %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/listings">
+      Go back
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_listing/<%= @the_listing.id %>">
+      Delete listing
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Owner
+    </dt>
+    <dd>
+      <%= @the_listing.owner_id %>
+    </dd>
+
+    <dt>
+      Title
+    </dt>
+    <dd>
+      <%= @the_listing.title %>
+    </dd>
+
+    <dt>
+      Address
+    </dt>
+    <dd>
+      <%= @the_listing.address %>
+    </dd>
+
+    <dt>
+      Neighborhood
+    </dt>
+    <dd>
+      <%= @the_listing.neighborhood %>
+    </dd>
+
+    <dt>
+      Bedrooms
+    </dt>
+    <dd>
+      <%= @the_listing.bedrooms %>
+    </dd>
+
+    <dt>
+      Bathrooms
+    </dt>
+    <dd>
+      <%= @the_listing.bathrooms %>
+    </dd>
+
+    <dt>
+      Monthly rent
+    </dt>
+    <dd>
+      <%= @the_listing.monthly_rent %>
+    </dd>
+
+    <dt>
+      Available on
+    </dt>
+    <dd>
+      <%= @the_listing.available_on %>
+    </dd>
+
+    <dt>
+      Lease end on
+    </dt>
+    <dd>
+      <%= @the_listing.lease_end_on %>
+    </dd>
+
+    <dt>
+      Description
+    </dt>
+    <dd>
+      <%= @the_listing.description %>
+    </dd>
+
+    <dt>
+      Status
+    </dt>
+    <dd>
+      <%= @the_listing.status %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_listing.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_listing.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
+<article>
+  <header>
+    <h2>
+      Edit listing
+    </h2>
+  </header>
+
+  <form action="/modify_listing/<%= @the_listing.id %>"  method="post" >
+    <div>
+      <label for="owner_id_box">
+        Owner
+      </label>
+
+      <input type="text" id="owner_id_box" name="query_owner_id" value="<%= @the_listing.owner_id %>">
+    </div>
+
+    <div>
+      <label for="title_box">
+        Title
+      </label>
+
+      <input type="text" id="title_box" name="query_title" value="<%= @the_listing.title %>">
+    </div>
+
+    <div>
+      <label for="address_box">
+        Address
+      </label>
+
+      <input type="text" id="address_box" name="query_address" value="<%= @the_listing.address %>">
+    </div>
+
+    <div>
+      <label for="neighborhood_box">
+        Neighborhood
+      </label>
+
+      <input type="text" id="neighborhood_box" name="query_neighborhood" value="<%= @the_listing.neighborhood %>">
+    </div>
+
+    <div>
+      <label for="bedrooms_box">
+        Bedrooms
+      </label>
+
+      <input type="text" id="bedrooms_box" name="query_bedrooms" value="<%= @the_listing.bedrooms %>">
+    </div>
+
+    <div>
+      <label for="bathrooms_box">
+        Bathrooms
+      </label>
+
+      <input type="text" id="bathrooms_box" name="query_bathrooms" value="<%= @the_listing.bathrooms %>">
+    </div>
+
+    <div>
+      <label for="monthly_rent_box">
+        Monthly rent
+      </label>
+
+      <input type="text" id="monthly_rent_box" name="query_monthly_rent" value="<%= @the_listing.monthly_rent %>">
+    </div>
+
+    <div>
+      <label for="available_on_box">
+        Available on
+      </label>
+
+      <input type="date" id="available_on_box" name="query_available_on" value="<%= @the_listing.available_on %>">
+    </div>
+
+    <div>
+      <label for="lease_end_on_box">
+        Lease end on
+      </label>
+
+      <input type="date" id="lease_end_on_box" name="query_lease_end_on" value="<%= @the_listing.lease_end_on %>">
+    </div>
+
+    <div>
+      <label for="description_box">
+        Description
+      </label>
+
+      <input type="text" id="description_box" name="query_description" value="<%= @the_listing.description %>">
+    </div>
+
+    <div>
+      <label for="status_box">
+        Status
+      </label>
+
+      <input type="text" id="status_box" name="query_status" value="<%= @the_listing.status %>">
+    </div>
+
+    <button type="submit">
+      Update listing
+    </button>
+  </form>
+</article>
+
+<hr>

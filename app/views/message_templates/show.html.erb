@@ -1,0 +1,96 @@
+<h1>
+  Message #<%= @the_message.id %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/messages">
+      Go back
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_message/<%= @the_message.id %>">
+      Delete message
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Application
+    </dt>
+    <dd>
+      <%= @the_message.application_id %>
+    </dd>
+
+    <dt>
+      Sender
+    </dt>
+    <dd>
+      <%= @the_message.sender_id %>
+    </dd>
+
+    <dt>
+      Body
+    </dt>
+    <dd>
+      <%= @the_message.body %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_message.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_message.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
+<article>
+  <header>
+    <h2>
+      Edit message
+    </h2>
+  </header>
+
+  <form action="/modify_message/<%= @the_message.id %>"  method="post" >
+    <div>
+      <label for="application_id_box">
+        Application
+      </label>
+
+      <input type="text" id="application_id_box" name="query_application_id" value="<%= @the_message.application_id %>">
+    </div>
+
+    <div>
+      <label for="sender_id_box">
+        Sender
+      </label>
+
+      <input type="text" id="sender_id_box" name="query_sender_id" value="<%= @the_message.sender_id %>">
+    </div>
+
+    <div>
+      <label for="body_box">
+        Body
+      </label>
+
+      <input type="text" id="body_box" name="query_body" value="<%= @the_message.body %>">
+    </div>
+
+    <button type="submit">
+      Update message
+    </button>
+  </form>
+</article>
+
+<hr>

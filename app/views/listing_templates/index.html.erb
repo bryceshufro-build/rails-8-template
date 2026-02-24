@@ -1,0 +1,123 @@
+<h1>
+  List of all listings
+</h1>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      Add a new listing
+    </h2>
+  </header>
+
+  <form action="/insert_listing" method="post">
+    <div>
+      <label for="owner_id_box">
+        Owner
+      </label>
+
+      <input type="text" id="owner_id_box" name="query_owner_id">
+    </div>
+
+    <div>
+      <label for="title_box">
+        Title
+      </label>
+
+      <input type="text" id="title_box" name="query_title">
+    </div>
+
+    <div>
+      <label for="address_box">
+        Address
+      </label>
+
+      <input type="text" id="address_box" name="query_address">
+    </div>
+
+    <div>
+      <label for="neighborhood_box">
+        Neighborhood
+      </label>
+
+      <input type="text" id="neighborhood_box" name="query_neighborhood">
+    </div>
+
+    <div>
+      <label for="bedrooms_box">
+        Bedrooms
+      </label>
+
+      <input type="text" id="bedrooms_box" name="query_bedrooms">
+    </div>
+
+    <div>
+      <label for="bathrooms_box">
+        Bathrooms
+      </label>
+
+      <input type="text" id="bathrooms_box" name="query_bathrooms">
+    </div>
+
+    <div>
+      <label for="monthly_rent_box">
+        Monthly rent
+      </label>
+
+      <input type="text" id="monthly_rent_box" name="query_monthly_rent">
+    </div>
+
+    <div>
+      <label for="available_on_box">
+        Available on
+      </label>
+
+      <input type="date" id="available_on_box" name="query_available_on">
+    </div>
+
+    <div>
+      <label for="lease_end_on_box">
+        Lease end on
+      </label>
+
+      <input type="date" id="lease_end_on_box" name="query_lease_end_on">
+    </div>
+
+    <div>
+      <label for="description_box">
+        Description
+      </label>
+
+      <input type="text" id="description_box" name="query_description">
+    </div>
+
+    <div>
+      <label for="status_box">
+        Status
+      </label>
+
+      <input type="text" id="status_box" name="query_status">
+    </div>
+
+    <button type="submit">
+      Create listing
+    </button>
+  </form>
+</article>
+
+<hr>
+
+<article>
+  <ul>
+    <% @list_of_listings.each do |a_listing| %>
+      <li>
+        <a href="/listings/<%= a_listing.id %>">
+          Listing #<%= a_listing.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>
