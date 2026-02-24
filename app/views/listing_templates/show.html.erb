@@ -9,11 +9,13 @@
     </a>
   </div>
 
+  <% if user_signed_in? && current_user.id == @the_listing.owner_id %>
   <div>
     <a href="/delete_listing/<%= @the_listing.id %>">
       Delete listing
     </a>
   </div>
+<% end %>
   <dl>
     <dt>
       Owner
@@ -119,13 +121,6 @@
   </header>
 
   <form action="/modify_listing/<%= @the_listing.id %>"  method="post" >
-    <div>
-      <label for="owner_id_box">
-        Owner
-      </label>
-
-      <input type="text" id="owner_id_box" name="query_owner_id" value="<%= @the_listing.owner_id %>">
-    </div>
 
     <div>
       <label for="title_box">
