@@ -20,7 +20,10 @@ class ListingsController < ApplicationController
 
   def create
     the_listing = Listing.new
-    the_listing.owner_id = params.fetch("query_owner_id")
+
+    #the_listing.owner_id = params.fetch("query_owner_id")
+    the_listing.owner_id = current_user.id
+
     the_listing.title = params.fetch("query_title")
     the_listing.address = params.fetch("query_address")
     the_listing.neighborhood = params.fetch("query_neighborhood")
