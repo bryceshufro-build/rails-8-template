@@ -10,18 +10,24 @@
   </div>
 
   <% if user_signed_in? && current_user.id == @the_listing.owner_id %>
-  <div>
-    <a href="/delete_listing/<%= @the_listing.id %>">
-      Delete listing
-    </a>
-  </div>
-<% end %>
+    <div>
+      <a href="/delete_listing/<%= @the_listing.id %>">
+        Delete listing
+      </a>
+    </div>
+  <% end %>
+
   <dl>
     <dt>
       Owner
     </dt>
     <dd>
-      <%= @the_listing.owner_id %>
+      <%# Prefer showing the owner's email if the association exists %>
+      <% if @the_listing.respond_to?(:owner) && @the_listing.owner.present? %>
+        <%= @the_listing.owner.email %>
+      <% else %>
+        <%= @the_listing.owner_id %>
+      <% end %>
     </dd>
 
     <dt>
@@ -110,102 +116,135 @@
   </dl>
 </article>
 
-<hr>
+<%# Applicant flow: show Apply form to signed-in non-owners %>
+<% if user_signed_in? && current_user.id != @the_listing.owner_id %>
+  <hr>
 
+  <article>
+    <header>
+      <h2>
+        Apply to this listing
+      </h2>
+    </header>
 
-<article>
-  <header>
-    <h2>
-      Edit listing
-    </h2>
-  </header>
+    <form action="/insert_application" method="post">
+      <div>
+        <label for="message_to_owner_box">
+          Message to owner
+        </label>
 
-  <form action="/modify_listing/<%= @the_listing.id %>"  method="post" >
+        <input
+          type="text"
+          id="message_to_owner_box"
+          name="query_message_to_owner"
+          placeholder="Introduce yourself and ask for a tour"
+        >
+      </div>
 
-    <div>
-      <label for="title_box">
-        Title
-      </label>
+      <input type="hidden" name="query_listing_id" value="<%= @the_listing.id %>">
 
-      <input type="text" id="title_box" name="query_title" value="<%= @the_listing.title %>">
-    </div>
+      <button type="submit">
+        Submit application
+      </button>
+    </form>
+  </article>
+<% end %>
 
-    <div>
-      <label for="address_box">
-        Address
-      </label>
+<%# Owner flow: only owners can edit %>
+<% if user_signed_in? && current_user.id == @the_listing.owner_id %>
+  <hr>
 
-      <input type="text" id="address_box" name="query_address" value="<%= @the_listing.address %>">
-    </div>
+  <article>
+    <header>
+      <h2>
+        Edit listing
+      </h2>
+    </header>
 
-    <div>
-      <label for="neighborhood_box">
-        Neighborhood
-      </label>
+    <form action="/modify_listing/<%= @the_listing.id %>" method="post">
+      <div>
+        <label for="title_box">
+          Title
+        </label>
 
-      <input type="text" id="neighborhood_box" name="query_neighborhood" value="<%= @the_listing.neighborhood %>">
-    </div>
+        <input type="text" id="title_box" name="query_title" value="<%= @the_listing.title %>">
+      </div>
 
-    <div>
-      <label for="bedrooms_box">
-        Bedrooms
-      </label>
+      <div>
+        <label for="address_box">
+          Address
+        </label>
 
-      <input type="text" id="bedrooms_box" name="query_bedrooms" value="<%= @the_listing.bedrooms %>">
-    </div>
+        <input type="text" id="address_box" name="query_address" value="<%= @the_listing.address %>">
+      </div>
 
-    <div>
-      <label for="bathrooms_box">
-        Bathrooms
-      </label>
+      <div>
+        <label for="neighborhood_box">
+          Neighborhood
+        </label>
 
-      <input type="text" id="bathrooms_box" name="query_bathrooms" value="<%= @the_listing.bathrooms %>">
-    </div>
+        <input type="text" id="neighborhood_box" name="query_neighborhood" value="<%= @the_listing.neighborhood %>">
+      </div>
 
-    <div>
-      <label for="monthly_rent_box">
-        Monthly rent
-      </label>
+      <div>
+        <label for="bedrooms_box">
+          Bedrooms
+        </label>
 
-      <input type="text" id="monthly_rent_box" name="query_monthly_rent" value="<%= @the_listing.monthly_rent %>">
-    </div>
+        <input type="text" id="bedrooms_box" name="query_bedrooms" value="<%= @the_listing.bedrooms %>">
+      </div>
 
-    <div>
-      <label for="available_on_box">
-        Available on
-      </label>
+      <div>
+        <label for="bathrooms_box">
+          Bathrooms
+        </label>
 
-      <input type="date" id="available_on_box" name="query_available_on" value="<%= @the_listing.available_on %>">
-    </div>
+        <input type="text" id="bathrooms_box" name="query_bathrooms" value="<%= @the_listing.bathrooms %>">
+      </div>
 
-    <div>
-      <label for="lease_end_on_box">
-        Lease end on
-      </label>
+      <div>
+        <label for="monthly_rent_box">
+          Monthly rent
+        </label>
 
-      <input type="date" id="lease_end_on_box" name="query_lease_end_on" value="<%= @the_listing.lease_end_on %>">
-    </div>
+        <input type="text" id="monthly_rent_box" name="query_monthly_rent" value="<%= @the_listing.monthly_rent %>">
+      </div>
 
-    <div>
-      <label for="description_box">
-        Description
-      </label>
+      <div>
+        <label for="available_on_box">
+          Available on
+        </label>
 
-      <input type="text" id="description_box" name="query_description" value="<%= @the_listing.description %>">
-    </div>
+        <input type="date" id="available_on_box" name="query_available_on" value="<%= @the_listing.available_on %>">
+      </div>
 
-    <div>
-      <label for="status_box">
-        Status
-      </label>
+      <div>
+        <label for="lease_end_on_box">
+          Lease end on
+        </label>
 
-      <input type="text" id="status_box" name="query_status" value="<%= @the_listing.status %>">
-    </div>
+        <input type="date" id="lease_end_on_box" name="query_lease_end_on" value="<%= @the_listing.lease_end_on %>">
+      </div>
 
-    <button type="submit">
-      Update listing
-    </button>
-  </form>
-</article>
+      <div>
+        <label for="description_box">
+          Description
+        </label>
 
-<hr>
+        <input type="text" id="description_box" name="query_description" value="<%= @the_listing.description %>">
+      </div>
+
+      <div>
+        <label for="status_box">
+          Status
+        </label>
+
+        <input type="text" id="status_box" name="query_status" value="<%= @the_listing.status %>">
+      </div>
+
+      <button type="submit">
+        Update listing
+      </button>
+    </form>
+  </article>
+<% end %>
