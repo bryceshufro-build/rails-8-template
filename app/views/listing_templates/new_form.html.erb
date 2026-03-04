@@ -6,7 +6,7 @@
   New listing
 </h1>
 
-<form action="/insert_listing" method="post">
+<form action="/insert_listing" method="post" enctype="multipart/form-data">
   <div>
     <label for="title_box">Title</label>
     <input id="title_box" name="query_title" type="text">
@@ -55,6 +55,11 @@
   <div>
     <label for="status_box">Status</label>
     <input id="status_box" name="query_status" type="text" placeholder="open">
+  </div>
+
+  <div>
+    <label for="photos_box">Apartment photos</label>
+    <input id="photos_box" name="query_photos[]" type="file" multiple>
   </div>
 
   <button type="submit">
