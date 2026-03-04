@@ -9,24 +9,34 @@
     </a>
   </div>
 
-  <div>
-    <a href="/delete_application/<%= @the_application.id %>">
-      Delete application
-    </a>
-  </div>
+  <%# Applicant can withdraw their own application %>
+  <% if user_signed_in? && current_user.id == @the_application.user_id %>
+    <div>
+      <a href="/delete_application/<%= @the_application.id %>">
+        Withdraw application
+      </a>
+    </div>
+  <% end %>
+
   <dl>
     <dt>
       Listing
     </dt>
     <dd>
-      <%= @the_application.listing_id %>
+      <a href="/listings/<%= @the_application.listing_id %>">
+        Listing #<%= @the_application.listing_id %>
+      </a>
     </dd>
 
     <dt>
-      User
+      Applicant
     </dt>
     <dd>
-      <%= @the_application.user_id %>
+      <% if @the_application.user.present? %>
+        <%= @the_application.user.email %>
+      <% else %>
+        <%= @the_application.user_id %>
+      <% end %>
     </dd>
 
     <dt>
@@ -73,69 +83,45 @@
   </dl>
 </article>
 
-<hr>
+<%# Owner decision form: only the listing owner should see this %>
+<% if user_signed_in? && current_user.id == @the_application.listing.owner_id %>
+  <hr>
 
+  <article>
+    <header>
+      <h2>
+        Owner decision
+      </h2>
+    </header>
 
-<article>
-  <header>
-    <h2>
-      Edit application
-    </h2>
-  </header>
+    <form action="/modify_application/<%= @the_application.id %>" method="post">
+      <div>
+        <label for="priority_rank_box">
+          Priority rank
+        </label>
 
-  <form action="/modify_application/<%= @the_application.id %>"  method="post" >
-    <div>
-      <label for="listing_id_box">
-        Listing
-      </label>
+        <input type="text" id="priority_rank_box" name="query_priority_rank" value="<%= @the_application.priority_rank %>">
+      </div>
 
-      <input type="text" id="listing_id_box" name="query_listing_id" value="<%= @the_application.listing_id %>">
-    </div>
+      <div>
+        <label for="status_box">
+          Status
+        </label>
 
-    <div>
-      <label for="user_id_box">
-        User
-      </label>
+        <input type="text" id="status_box" name="query_status" value="<%= @the_application.status %>">
+      </div>
 
-      <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_application.user_id %>">
-    </div>
+      <div>
+        <label for="decision_notes_box">
+          Decision notes
+        </label>
 
-    <div>
-      <label for="message_to_owner_box">
-        Message to owner
-      </label>
+        <input type="text" id="decision_notes_box" name="query_decision_notes" value="<%= @the_application.decision_notes %>">
+      </div>
 
-      <input type="text" id="message_to_owner_box" name="query_message_to_owner" value="<%= @the_application.message_to_owner %>">
-    </div>
-
-    <div>
-      <label for="priority_rank_box">
-        Priority rank
-      </label>
-
-      <input type="text" id="priority_rank_box" name="query_priority_rank" value="<%= @the_application.priority_rank %>">
-    </div>
-
-    <div>
-      <label for="status_box">
-        Status
-      </label>
-
-      <input type="text" id="status_box" name="query_status" value="<%= @the_application.status %>">
-    </div>
-
-    <div>
-      <label for="decision_notes_box">
-        Decision notes
-      </label>
-
-      <input type="text" id="decision_notes_box" name="query_decision_notes" value="<%= @the_application.decision_notes %>">
-    </div>
-
-    <button type="submit">
-      Update application
-    </button>
-  </form>
-</article>
-
-<hr>
+      <button type="submit">
+        Update decision
+      </button>
+    </form>
+  </article>
+<% end %>
