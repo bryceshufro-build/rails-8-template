@@ -11,7 +11,7 @@
 
   <% if user_signed_in? && current_user.id == @the_listing.owner_id %>
     <div>
-      <a href="/delete_listing_photo/<%= a_photo.id %>">
+      <a href="/delete_listing/<%= @the_listing.id %>">
         Delete listing
       </a>
     </div>
@@ -49,7 +49,9 @@
       </dt>
       <dd>
         <% @the_listing.photos.each do |a_photo| %>
-          <%= image_tag(a_photo, style: "width: 320px; max-width: 100%; border-radius: 12px; margin-right: 10px; margin-bottom: 10px;") %>
+          <div style="display:inline-block; margin-right: 10px; margin-bottom: 10px;">
+            <%= image_tag(a_photo, style: "width: 320px; max-width: 100%; border-radius: 12px; display:block;") %>
+          </div>
         <% end %>
       </dd>
     <% end %>
@@ -170,19 +172,22 @@
     </header>
 
     <% if @the_listing.photos.attached? %>
-      <h3>Current photos</h3>
+      <h3>
+        Current photos
+      </h3>
 
       <% @the_listing.photos.each do |a_photo| %>
-        <div>
-          <%= image_tag(a_photo, style: "width: 220px; max-width: 100%; border-radius: 12px; margin-bottom: 6px;") %>
+        <div style="display:inline-block; margin-right: 10px; margin-bottom: 10px; vertical-align: top;">
+          <%= image_tag(a_photo, style: "width: 220px; max-width: 100%; border-radius: 12px; display:block; margin-bottom: 6px;") %>
           <div>
-            <a href="/delete_listing_photo/<%= a_photo.attachment.id %>">
+            <a href="/delete_listing_photo/<%= a_photo.id %>">
               Remove this photo
             </a>
           </div>
         </div>
-        <hr>
       <% end %>
+
+      <hr>
     <% end %>
 
     <form action="/modify_listing/<%= @the_listing.id %>" method="post" enctype="multipart/form-data">
