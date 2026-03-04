@@ -9,7 +9,6 @@
     </a>
   </div>
 
-  <%# Applicant can withdraw their own application %>
   <% if user_signed_in? && current_user.id == @the_application.user_id %>
     <div>
       <a href="/delete_application/<%= @the_application.id %>">
@@ -83,7 +82,6 @@
   </dl>
 </article>
 
-<%# Owner decision form: only the listing owner should see this %>
 <% if user_signed_in? && current_user.id == @the_application.listing.owner_id %>
   <hr>
 
@@ -135,24 +133,40 @@
     </h2>
   </header>
 
-  <% if @list_of_messages.present? && @list_of_messages.any? %>
-    <ul>
-      <% @list_of_messages.each do |a_message| %>
-        <li>
+  <% if @messages.present? && @messages.any? %>
+    <% @messages.each do |a_message| %>
+      <div style="margin-bottom: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;">
+        <div style="font-size: 14px; margin-bottom: 6px;">
           <strong>
-            <% if a_message.sender.present? %>
-              <%= a_message.sender.email %>
+            <% if a_message.sender_id == current_user.id %>
+              You
             <% else %>
-              User #<%= a_message.sender_id %>
+              <% if a_message.sender.present? %>
+                <%= a_message.sender.email %>
+              <% else %>
+                User #<%= a_message.sender_id %>
+              <% end %>
             <% end %>
           </strong>
-          —
-          <%= a_message.body %>
-          <br>
-          <small><%= time_ago_in_words(a_message.created_at) %> ago</small>
-        </li>
-      <% end %>
-    </ul>
+
+          <span style="color:#666;">
+            · <%= time_ago_in_words(a_message.created_at) %> ago
+          </span>
+        </div>
+
+        <div>
+          <%= simple_format(a_message.body) %>
+        </div>
+
+        <% if a_message.sender_id == current_user.id %>
+          <div style="margin-top: 6px;">
+            <a href="/delete_message/<%= a_message.id %>">
+              Delete
+            </a>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   <% else %>
     <p>
       No messages yet.
