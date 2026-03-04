@@ -24,17 +24,18 @@ Rails.application.routes.draw do
 
   get("/delete_application/:path_id", { :controller => "applications", :action => "destroy" })
 
-  post("/insert_listing", { :controller => "listings", :action => "create" })
+  # LISTINGS
 
   get("/listings/new", { :controller => "listings", :action => "new_form" })
   get("/listings", { :controller => "listings", :action => "index" })
-  get("/listings/:path_id", { :controller => "listings", :action => "show" })
 
+  post("/insert_listing", { :controller => "listings", :action => "create" })
   post("/modify_listing/:path_id", { :controller => "listings", :action => "update" })
 
   get("/delete_listing/:path_id", { :controller => "listings", :action => "destroy" })
   get("/delete_listing_photo/:photo_id", { :controller => "listings", :action => "destroy_photo" })
 
+  get("/listings/:path_id", { :controller => "listings", :action => "show" })
   devise_for :users
 
   get("/", { :controller => "pages", :action => "home" })
