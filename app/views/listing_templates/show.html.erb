@@ -11,7 +11,7 @@
 
   <% if user_signed_in? && current_user.id == @the_listing.owner_id %>
     <div>
-      <a href="/delete_listing/<%= @the_listing.id %>">
+      <a href="/delete_listing_photo/<%= a_photo.id %>">
         Delete listing
       </a>
     </div>
