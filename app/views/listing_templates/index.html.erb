@@ -12,13 +12,6 @@
   </header>
 
   <form action="/insert_listing" method="post">
-    <div>
-      <label for="owner_id_box">
-        Owner
-      </label>
-
-      <input type="text" id="owner_id_box" name="query_owner_id">
-    </div>
 
     <div>
       <label for="title_box">
@@ -97,7 +90,7 @@
         Status
       </label>
 
-      <input type="text" id="status_box" name="query_status">
+      <input type="text" id="status_box" name="query_status" value="open">
     </div>
 
     <button type="submit">
@@ -113,7 +106,7 @@
     <% @list_of_listings.each do |a_listing| %>
       <li>
         <a href="/listings/<%= a_listing.id %>">
-          Listing #<%= a_listing.id %>
+          <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
         </a>
       </li>
     <% end %>
