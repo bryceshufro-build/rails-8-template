@@ -1,8 +1,8 @@
 class ListingsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+
   def index
     matching_listings = Listing.all
-
     @list_of_listings = matching_listings.order({ :created_at => :desc })
 
     render({ :template => "listing_templates/index" })
@@ -10,20 +10,21 @@ class ListingsController < ApplicationController
 
   def show
     the_id = params.fetch("path_id")
-
     matching_listings = Listing.where({ :id => the_id })
-
     @the_listing = matching_listings.at(0)
 
     render({ :template => "listing_templates/show" })
   end
 
+  def new_form
+    @the_listing = Listing.new
+    render({ :template => "listing_templates/new_form" })
+  end
+
   def create
     the_listing = Listing.new
 
-    #the_listing.owner_id = params.fetch("query_owner_id")
     the_listing.owner_id = current_user.id
-
     the_listing.title = params.fetch("query_title")
     the_listing.address = params.fetch("query_address")
     the_listing.neighborhood = params.fetch("query_neighborhood")
@@ -37,7 +38,7 @@ class ListingsController < ApplicationController
 
     if the_listing.valid?
       the_listing.save
-      redirect_to("/listings", { :notice => "Listing created successfully." })
+      redirect_to("/listings/#{the_listing.id}", { :notice => "Listing created successfully." })
     else
       redirect_to("/listings", { :alert => the_listing.errors.full_messages.to_sentence })
     end
@@ -47,7 +48,13 @@ class ListingsController < ApplicationController
     the_id = params.fetch("path_id")
     the_listing = Listing.where({ :id => the_id }).at(0)
 
-    the_listing.owner_id = params.fetch("query_owner_id")
+    # Only owner can update
+    if the_listing.owner_id != current_user.id
+      redirect_to("/listings/#{the_listing.id}", { :alert => "Not authorized." })
+      return
+    end
+
+    # Do NOT allow owner_id changes
     the_listing.title = params.fetch("query_title")
     the_listing.address = params.fetch("query_address")
     the_listing.neighborhood = params.fetch("query_neighborhood")
@@ -61,7 +68,7 @@ class ListingsController < ApplicationController
 
     if the_listing.valid?
       the_listing.save
-      redirect_to("/listings/#{the_listing.id}", { :notice => "Listing updated successfully." } )
+      redirect_to("/listings/#{the_listing.id}", { :notice => "Listing updated successfully." })
     else
       redirect_to("/listings/#{the_listing.id}", { :alert => the_listing.errors.full_messages.to_sentence })
     end
@@ -71,13 +78,13 @@ class ListingsController < ApplicationController
     the_id = params.fetch("path_id")
     the_listing = Listing.where({ :id => the_id }).at(0)
 
+    # Only owner can delete
+    if the_listing.owner_id != current_user.id
+      redirect_to("/listings/#{the_listing.id}", { :alert => "Not authorized." })
+      return
+    end
+
     the_listing.destroy
-
-    redirect_to("/listings", { :notice => "Listing deleted successfully." } )
-  end
-
-  def new_form
-  @the_listing = Listing.new
-  render({ :template => "listing_templates/new_form" })
+    redirect_to("/listings", { :notice => "Listing deleted successfully." })
   end
 end
