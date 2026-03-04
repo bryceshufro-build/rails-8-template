@@ -26,8 +26,8 @@ Rails.application.routes.draw do
 
   post("/insert_listing", { :controller => "listings", :action => "create" })
 
+  get("/listings/new", { :controller => "listings", :action => "new_form" })
   get("/listings", { :controller => "listings", :action => "index" })
-
   get("/listings/:path_id", { :controller => "listings", :action => "show" })
 
   post("/modify_listing/:path_id", { :controller => "listings", :action => "update" })
