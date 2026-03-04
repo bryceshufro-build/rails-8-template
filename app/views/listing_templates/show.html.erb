@@ -22,7 +22,6 @@
       Owner
     </dt>
     <dd>
-      <%# Prefer showing the owner's email if the association exists %>
       <% if @the_listing.respond_to?(:owner) && @the_listing.owner.present? %>
         <%= @the_listing.owner.email %>
       <% else %>
@@ -44,7 +43,6 @@
       <%= @the_listing.address %>
     </dd>
 
-    <%# Photos: placed right after Title/Address so it's the first thing you "see" %>
     <% if @the_listing.respond_to?(:photos) && @the_listing.photos.attached? %>
       <dt>
         Photos
@@ -128,7 +126,6 @@
   </dl>
 </article>
 
-<%# Applicant flow: show Apply form to signed-in non-owners %>
 <% if user_signed_in? && current_user.id != @the_listing.owner_id %>
   <hr>
 
@@ -162,7 +159,6 @@
   </article>
 <% end %>
 
-<%# Owner flow: only owners can edit %>
 <% if user_signed_in? && current_user.id == @the_listing.owner_id %>
   <hr>
 
@@ -173,7 +169,23 @@
       </h2>
     </header>
 
-    <form action="/modify_listing/<%= @the_listing.id %>" method="post">
+    <% if @the_listing.photos.attached? %>
+      <h3>Current photos</h3>
+
+      <% @the_listing.photos.each do |a_photo| %>
+        <div>
+          <%= image_tag(a_photo, style: "width: 220px; max-width: 100%; border-radius: 12px; margin-bottom: 6px;") %>
+          <div>
+            <a href="/delete_listing_photo/<%= a_photo.attachment.id %>">
+              Remove this photo
+            </a>
+          </div>
+        </div>
+        <hr>
+      <% end %>
+    <% end %>
+
+    <form action="/modify_listing/<%= @the_listing.id %>" method="post" enctype="multipart/form-data">
       <div>
         <label for="title_box">
           Title
@@ -252,6 +264,14 @@
         </label>
 
         <input type="text" id="status_box" name="query_status" value="<%= @the_listing.status %>">
+      </div>
+
+      <div>
+        <label for="photos_box">
+          Add more photos
+        </label>
+
+        <input id="photos_box" name="query_photos[]" type="file" multiple>
       </div>
 
       <button type="submit">

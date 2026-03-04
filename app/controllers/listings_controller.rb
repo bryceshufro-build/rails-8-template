@@ -22,45 +22,9 @@ class ListingsController < ApplicationController
   end
 
   def create
-  the_listing = Listing.new
+    the_listing = Listing.new
 
-  the_listing.owner_id = current_user.id
-  the_listing.title = params.fetch("query_title")
-  the_listing.address = params.fetch("query_address")
-  the_listing.neighborhood = params.fetch("query_neighborhood")
-  the_listing.bedrooms = params.fetch("query_bedrooms")
-  the_listing.bathrooms = params.fetch("query_bathrooms")
-  the_listing.monthly_rent = params.fetch("query_monthly_rent")
-  the_listing.available_on = params.fetch("query_available_on")
-  the_listing.lease_end_on = params.fetch("query_lease_end_on")
-  the_listing.description = params.fetch("query_description")
-  the_listing.status = params.fetch("query_status")
-
-  if the_listing.valid?
-    the_listing.save
-
-    uploaded_photos = params.fetch("query_photos", [])
-    if uploaded_photos.present?
-      the_listing.photos.attach(uploaded_photos)
-    end
-
-    redirect_to("/listings/#{the_listing.id}", { :notice => "Listing created successfully." })
-    else
-      redirect_to("/listings", { :alert => the_listing.errors.full_messages.to_sentence })
-    end
-  end
-
-  def update
-    the_id = params.fetch("path_id")
-    the_listing = Listing.where({ :id => the_id }).at(0)
-
-    # Only owner can update
-    if the_listing.owner_id != current_user.id
-      redirect_to("/listings/#{the_listing.id}", { :alert => "Not authorized." })
-      return
-    end
-
-    # Do NOT allow owner_id changes
+    the_listing.owner_id = current_user.id
     the_listing.title = params.fetch("query_title")
     the_listing.address = params.fetch("query_address")
     the_listing.neighborhood = params.fetch("query_neighborhood")
@@ -74,6 +38,48 @@ class ListingsController < ApplicationController
 
     if the_listing.valid?
       the_listing.save
+
+      uploaded_photos = params.fetch("query_photos", [])
+      if uploaded_photos.present?
+        the_listing.photos.attach(uploaded_photos)
+      end
+
+      redirect_to("/listings/#{the_listing.id}", { :notice => "Listing created successfully." })
+    else
+      redirect_to("/listings/new", { :alert => the_listing.errors.full_messages.to_sentence })
+    end
+  end
+
+  def update
+    the_id = params.fetch("path_id")
+    the_listing = Listing.where({ :id => the_id }).at(0)
+
+    # Only owner can update
+    if the_listing.owner_id != current_user.id
+      redirect_to("/listings/#{the_listing.id}", { :alert => "Not authorized." })
+      return
+    end
+
+    the_listing.title = params.fetch("query_title")
+    the_listing.address = params.fetch("query_address")
+    the_listing.neighborhood = params.fetch("query_neighborhood")
+    the_listing.bedrooms = params.fetch("query_bedrooms")
+    the_listing.bathrooms = params.fetch("query_bathrooms")
+    the_listing.monthly_rent = params.fetch("query_monthly_rent")
+    the_listing.available_on = params.fetch("query_available_on")
+    the_listing.lease_end_on = params.fetch("query_lease_end_on")
+    the_listing.description = params.fetch("query_description")
+    the_listing.status = params.fetch("query_status")
+
+    if the_listing.valid?
+      the_listing.save
+
+      # Add new photos (optional)
+      uploaded_photos = params.fetch("query_photos", [])
+      if uploaded_photos.present?
+        the_listing.photos.attach(uploaded_photos)
+      end
+
       redirect_to("/listings/#{the_listing.id}", { :notice => "Listing updated successfully." })
     else
       redirect_to("/listings/#{the_listing.id}", { :alert => the_listing.errors.full_messages.to_sentence })
@@ -92,5 +98,27 @@ class ListingsController < ApplicationController
 
     the_listing.destroy
     redirect_to("/listings", { :notice => "Listing deleted successfully." })
+  end
+
+  def destroy_photo
+    photo_id = params.fetch("photo_id")
+
+    attachment = ActiveStorage::Attachment.where({ :id => photo_id }).at(0)
+
+    if attachment.nil?
+      redirect_to("/listings", { :alert => "Photo not found." })
+      return
+    end
+
+    the_listing = attachment.record
+
+    # Only owner can delete photos
+    if the_listing.owner_id != current_user.id
+      redirect_to("/listings/#{the_listing.id}", { :alert => "Not authorized." })
+      return
+    end
+
+    attachment.purge
+    redirect_to("/listings/#{the_listing.id}", { :notice => "Photo removed successfully." })
   end
 end
