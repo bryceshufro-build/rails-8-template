@@ -23,6 +23,40 @@
   </head>
 
   <body>
+    <nav style="padding: 12px 0; border-bottom: 1px solid #ddd; margin-bottom: 18px;">
+      <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+        <a href="/">Home</a>
+        <a href="/listings">Listings</a>
+        <a href="/listings/new">New listing</a>
+        <a href="/applications">Applications</a>
+        <a href="/profile">Profile</a>
+
+        <span style="margin-left:auto;"></span>
+
+        <% if user_signed_in? %>
+          <span style="color:#666;">
+            Signed in as <%= current_user.email %>
+          </span>
+          <a href="/users/sign_out" data-turbo-method="delete">Sign out</a>
+        <% else %>
+          <a href="/users/sign_in">Sign in</a>
+          <a href="/users/sign_up">Sign up</a>
+        <% end %>
+      </div>
+    </nav>
+
+    <% if notice.present? %>
+      <p style="padding: 10px; border: 1px solid #cfe9cf; border-radius: 10px;">
+        <%= notice %>
+      </p>
+    <% end %>
+
+    <% if alert.present? %>
+      <p style="padding: 10px; border: 1px solid #f2c9c9; border-radius: 10px;">
+        <%= alert %>
+      </p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
