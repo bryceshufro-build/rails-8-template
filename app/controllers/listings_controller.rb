@@ -75,4 +75,9 @@ class ListingsController < ApplicationController
 
     redirect_to("/listings", { :notice => "Listing deleted successfully." } )
   end
+
+  def new_form
+  @the_listing = Listing.new
+  render({ :template => "listing_templates/new_form" })
+  end
 end
