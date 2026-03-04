@@ -44,6 +44,18 @@
       <%= @the_listing.address %>
     </dd>
 
+    <%# Photos: placed right after Title/Address so it's the first thing you "see" %>
+    <% if @the_listing.respond_to?(:photos) && @the_listing.photos.attached? %>
+      <dt>
+        Photos
+      </dt>
+      <dd>
+        <% @the_listing.photos.each do |a_photo| %>
+          <%= image_tag(a_photo, style: "width: 320px; max-width: 100%; border-radius: 12px; margin-right: 10px; margin-bottom: 10px;") %>
+        <% end %>
+      </dd>
+    <% end %>
+
     <dt>
       Neighborhood
     </dt>
