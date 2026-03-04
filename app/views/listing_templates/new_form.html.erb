@@ -1,0 +1,63 @@
+<h1>
+  New listing
+</h1>
+
+<form action="/insert_listing" method="post">
+  <div>
+    <label for="title_box">Title</label>
+    <input id="title_box" name="query_title" type="text">
+  </div>
+
+  <div>
+    <label for="address_box">Address</label>
+    <input id="address_box" name="query_address" type="text">
+  </div>
+
+  <div>
+    <label for="neighborhood_box">Neighborhood</label>
+    <input id="neighborhood_box" name="query_neighborhood" type="text">
+  </div>
+
+  <div>
+    <label for="bedrooms_box">Bedrooms</label>
+    <input id="bedrooms_box" name="query_bedrooms" type="text">
+  </div>
+
+  <div>
+    <label for="bathrooms_box">Bathrooms</label>
+    <input id="bathrooms_box" name="query_bathrooms" type="text">
+  </div>
+
+  <div>
+    <label for="monthly_rent_box">Monthly rent</label>
+    <input id="monthly_rent_box" name="query_monthly_rent" type="text">
+  </div>
+
+  <div>
+    <label for="available_on_box">Available on</label>
+    <input id="available_on_box" name="query_available_on" type="date">
+  </div>
+
+  <div>
+    <label for="lease_end_on_box">Lease end on</label>
+    <input id="lease_end_on_box" name="query_lease_end_on" type="date">
+  </div>
+
+  <div>
+    <label for="description_box">Description</label>
+    <input id="description_box" name="query_description" type="text">
+  </div>
+
+  <div>
+    <label for="status_box">Status</label>
+    <input id="status_box" name="query_status" type="text" placeholder="open">
+  </div>
+
+  <button type="submit">
+    Create listing
+  </button>
+</form>
+
+<p>
+  <a href="/listings">Back to listings</a>
+</p>
