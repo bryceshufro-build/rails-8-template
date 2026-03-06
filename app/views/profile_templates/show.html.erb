@@ -1,0 +1,108 @@
+<h1>
+  My profile
+</h1>
+
+<hr>
+
+<article>
+  <div>
+    <a href="/profile/edit">
+      Edit profile
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_profile">
+      Delete profile
+    </a>
+  </div>
+
+  <dl>
+    <dt>
+      Email
+    </dt>
+    <dd>
+      <%= @the_user.email %>
+    </dd>
+
+    <dt>
+      First name
+    </dt>
+    <dd>
+      <%= @the_user.first_name %>
+    </dd>
+
+    <dt>
+      Last name
+    </dt>
+    <dd>
+      <%= @the_user.last_name %>
+    </dd>
+
+    <dt>
+      Phone
+    </dt>
+    <dd>
+      <%= @the_user.phone %>
+    </dd>
+
+    <dt>
+      Bio
+    </dt>
+    <dd>
+      <%= @the_user.bio %>
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      My listings
+    </h2>
+  </header>
+
+  <% if @my_listings.any? %>
+    <ul>
+      <% @my_listings.each do |a_listing| %>
+        <li>
+          <a href="/listings/<%= a_listing.id %>">
+            <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      You have not posted any listings.
+    </p>
+  <% end %>
+</article>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      My applications
+    </h2>
+  </header>
+
+  <% if @my_applications.any? %>
+    <ul>
+      <% @my_applications.each do |an_application| %>
+        <li>
+          <a href="/applications/<%= an_application.id %>">
+            Application #<%= an_application.id %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      You have not submitted any applications.
+    </p>
+  <% end %>
+</article>
