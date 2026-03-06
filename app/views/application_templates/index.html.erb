@@ -19,12 +19,13 @@
           <li>
             <a href="/applications/<%= an_application.id %>">
               <% if an_application.user.present? %>
-                <%= an_application.user.email %>
+                <%= an_application.user.first_name %> <%= an_application.user.last_name %>
               <% else %>
                 Applicant #<%= an_application.user_id %>
               <% end %>
             </a>
-            — Listing #<%= an_application.listing_id %>
+            — 
+            <%= an_application.listing.title.presence || "Listing ##{an_application.listing_id}" %>
           </li>
         <% end %>
       </ul>
@@ -49,7 +50,7 @@
         <% @my_applications.each do |an_application| %>
           <li>
             <a href="/applications/<%= an_application.id %>">
-              Listing #<%= an_application.listing_id %>
+              <%= an_application.listing.title.presence || "Listing ##{an_application.listing_id}" %>
             </a>
             — <%= an_application.status.presence || "submitted" %>
           </li>
