@@ -17,20 +17,17 @@ class ApplicationsController < ApplicationController
   end
   
   def show
-  the_id = params.fetch("path_id")
-  @the_application = Application.where({ :id => the_id }).at(0)
+    the_id = params.fetch("path_id")
+    @the_application = Application.where({ :id => the_id }).at(0)
 
-  # Only applicant OR listing owner can view
-  allowed = (@the_application.user_id == current_user.id) || (@the_application.listing.owner_id == current_user.id)
+    allowed = (@the_application.user_id == current_user.id) || (@the_application.listing.owner_id == current_user.id)
 
-  if allowed == false
-    redirect_to("/listings", { :alert => "Not authorized." })
-    return
-  end
+    if allowed == false
+      redirect_to("/listings", { :alert => "Not authorized." })
+      return
+    end
 
-  @list_of_messages = Message.where({ :application_id => @the_application.id }).order({ :created_at => :asc })
-
-  render({ :template => "application_templates/show" })
+    render({ :template => "application_templates/show" })
   end
 
   def create

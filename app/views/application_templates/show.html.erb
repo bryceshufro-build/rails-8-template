@@ -32,9 +32,27 @@
     </dt>
     <dd>
       <% if @the_application.user.present? %>
-        <%= @the_application.user.email %>
+        <%= @the_application.user.first_name %> <%= @the_application.user.last_name %>
       <% else %>
-        <%= @the_application.user_id %>
+        User #<%= @the_application.user_id %>
+      <% end %>
+    </dd>
+
+    <dt>
+      Applicant email
+    </dt>
+    <dd>
+      <% if @the_application.user.present? %>
+        <%= @the_application.user.email %>
+      <% end %>
+    </dd>
+
+    <dt>
+      Applicant phone
+    </dt>
+    <dd>
+      <% if @the_application.user.present? %>
+        <%= @the_application.user.phone %>
       <% end %>
     </dd>
 
@@ -123,80 +141,3 @@
     </form>
   </article>
 <% end %>
-
-<hr>
-
-<article>
-  <header>
-    <h2>
-      Messages
-    </h2>
-  </header>
-
-  <% if @messages.present? && @messages.any? %>
-    <% @messages.each do |a_message| %>
-      <div style="margin-bottom: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;">
-        <div style="font-size: 14px; margin-bottom: 6px;">
-          <strong>
-            <% if a_message.sender_id == current_user.id %>
-              You
-            <% else %>
-              <% if a_message.sender.present? %>
-                <%= a_message.sender.email %>
-              <% else %>
-                User #<%= a_message.sender_id %>
-              <% end %>
-            <% end %>
-          </strong>
-
-          <span style="color:#666;">
-            · <%= time_ago_in_words(a_message.created_at) %> ago
-          </span>
-        </div>
-
-        <div>
-          <%= simple_format(a_message.body) %>
-        </div>
-
-        <% if a_message.sender_id == current_user.id %>
-          <div style="margin-top: 6px;">
-            <a href="/delete_message/<%= a_message.id %>">
-              Delete
-            </a>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  <% else %>
-    <p>
-      No messages yet.
-    </p>
-  <% end %>
-
-  <hr>
-
-  <h3>
-    Send a message
-  </h3>
-
-  <form action="/insert_message" method="post">
-    <div>
-      <label for="body_box">
-        Message
-      </label>
-
-      <input
-        type="text"
-        id="body_box"
-        name="query_body"
-        placeholder="Type your message..."
-      >
-    </div>
-
-    <input type="hidden" name="query_application_id" value="<%= @the_application.id %>">
-
-    <button type="submit">
-      Send
-    </button>
-  </form>
-</article>
