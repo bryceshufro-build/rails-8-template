@@ -18,6 +18,8 @@ class ListingsController < ApplicationController
     matching_listings = Listing.where({ :id => the_id })
     @the_listing = matching_listings.at(0)
 
+    @applications_for_listing = Application.where({ :listing_id => @the_listing.id }).order({ :created_at => :desc })
+
     render({ :template => "listing_templates/show" })
   end
 

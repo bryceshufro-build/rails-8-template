@@ -167,6 +167,38 @@
   <article>
     <header>
       <h2>
+        Applications
+      </h2>
+    </header>
+
+    <% if @applications_for_listing.any? %>
+      <ul>
+        <% @applications_for_listing.each do |an_application| %>
+          <li>
+            <a href="/applications/<%= an_application.id %>">
+              <% if an_application.user.present? %>
+                <%= an_application.user.email %>
+              <% else %>
+                Applicant #<%= an_application.user_id %>
+              <% end %>
+            </a>
+            —
+            <%= an_application.status.presence || "submitted" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>
+        No applications yet.
+      </p>
+    <% end %>
+  </article>
+
+  <hr>
+
+  <article>
+    <header>
+      <h2>
         Edit listing
       </h2>
     </header>
