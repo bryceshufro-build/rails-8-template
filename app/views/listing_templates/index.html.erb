@@ -1,33 +1,59 @@
-<p>
-  <a href="/">Home</a>
-</p>
-
 <h1>
-  List of all listings
+  Listings
 </h1>
 
 <hr>
 
-<article>
-  <% if user_signed_in? %>
-    <a href="/listings/new">
-      Post a new listing
-    </a>
-  <% end %>
-</article>
+<% if user_signed_in? %>
+  <article>
+    <header>
+      <h2>
+        My listings
+      </h2>
+    </header>
 
-<hr>
-
-<article>
-  <ul>
-    <% @list_of_listings.each do |a_listing| %>
-      <li>
-        <a href="/listings/<%= a_listing.id %>">
-          <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
-        </a>
-      </li>
+    <% if @my_listings.any? %>
+      <ul>
+        <% @my_listings.each do |a_listing| %>
+          <li>
+            <a href="/listings/<%= a_listing.id %>">
+              <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>
+        You have not posted any listings yet.
+      </p>
     <% end %>
-  </ul>
+  </article>
+
+  <hr>
+<% end %>
+
+<article>
+  <header>
+    <h2>
+      The market
+    </h2>
+  </header>
+
+  <% if @market_listings.any? %>
+    <ul>
+      <% @market_listings.each do |a_listing| %>
+        <li>
+          <a href="/listings/<%= a_listing.id %>">
+            <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>
+      No listings available right now.
+    </p>
+  <% end %>
 </article>
 
 <hr>
