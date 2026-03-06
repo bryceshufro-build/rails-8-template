@@ -1,6 +1,10 @@
 <h1>
-  Application #<%= @the_application.id %> details
+  <%= @the_application.user.first_name %>'s application
 </h1>
+
+<p style="color:#5b6773; margin-top:-8px;">
+  for <%= @the_application.listing.title.presence || "Listing ##{@the_application.listing_id}" %>
+</p>
 
 <article>
   <div>

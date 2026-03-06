@@ -1,6 +1,10 @@
 <h1>
-  Listing #<%= @the_listing.id %> details
+  <%= @the_listing.title.presence || "Listing ##{@the_listing.id}" %>
 </h1>
+
+<p style="color:#5b6773; margin-top:-8px;">
+  <%= @the_listing.neighborhood %>
+</p>
 
 <article>
   <div>
