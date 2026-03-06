@@ -2,18 +2,20 @@ class ApplicationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # Show applications that matter to the current user:
-    # - applications they submitted
-    # - applications submitted to listings they own
-    matching_applications = Application
-      .left_outer_joins(:listing)
-      .where("applications.user_id = ? OR listings.owner_id = ?", current_user.id, current_user.id)
+    if user_signed_in?
+      my_listing_ids = Listing.where({ :owner_id => current_user.id }).pluck(:id)
 
-    @list_of_applications = matching_applications.order({ :created_at => :desc })
+      @applications_to_my_listings = Application.where({ :listing_id => my_listing_ids }).order({ :created_at => :desc })
+
+      @my_applications = Application.where({ :user_id => current_user.id }).order({ :created_at => :desc })
+    else
+      @applications_to_my_listings = []
+      @my_applications = []
+    end
 
     render({ :template => "application_templates/index" })
   end
-
+  
   def show
   the_id = params.fetch("path_id")
   @the_application = Application.where({ :id => the_id }).at(0)
