@@ -2,8 +2,13 @@ class ListingsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    matching_listings = Listing.all
-    @list_of_listings = matching_listings.order({ :created_at => :desc })
+    if user_signed_in?
+      @my_listings = Listing.where({ :owner_id => current_user.id }).order({ :created_at => :desc })
+      @market_listings = Listing.where.not({ :owner_id => current_user.id }).order({ :created_at => :desc })
+    else
+      @my_listings = []
+      @market_listings = Listing.all.order({ :created_at => :desc })
+    end
 
     render({ :template => "listing_templates/index" })
   end
