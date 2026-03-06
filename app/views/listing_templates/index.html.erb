@@ -13,15 +13,35 @@
     </header>
 
     <% if @my_listings.any? %>
-      <ul>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
         <% @my_listings.each do |a_listing| %>
-          <li>
-            <a href="/listings/<%= a_listing.id %>">
-              <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
-            </a>
-          </li>
+          <a href="/listings/<%= a_listing.id %>" style="text-decoration:none; color:inherit;">
+            <article style="margin-bottom:0; height:100%;">
+              <% if a_listing.photos.attached? %>
+                <div style="margin-bottom:12px;">
+                  <%= image_tag(a_listing.photos.first, style: "width:100%; height:220px; object-fit:cover; border-radius:12px; display:block;") %>
+                </div>
+              <% end %>
+
+              <h3 style="margin-bottom:6px;">
+                <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
+              </h3>
+
+              <p style="margin-bottom:6px; color:#5b6773;">
+                <%= a_listing.neighborhood %>
+              </p>
+
+              <p style="margin-bottom:6px;">
+                $<%= a_listing.monthly_rent %> / month
+              </p>
+
+              <p style="margin-bottom:0; color:#5b6773;">
+                <%= a_listing.bedrooms %> bd · <%= a_listing.bathrooms %> ba
+              </p>
+            </article>
+          </a>
         <% end %>
-      </ul>
+      </div>
     <% else %>
       <p>
         You have not posted any listings yet.
@@ -40,15 +60,35 @@
   </header>
 
   <% if @market_listings.any? %>
-    <ul>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
       <% @market_listings.each do |a_listing| %>
-        <li>
-          <a href="/listings/<%= a_listing.id %>">
-            <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
-          </a>
-        </li>
+        <a href="/listings/<%= a_listing.id %>" style="text-decoration:none; color:inherit;">
+          <article style="margin-bottom:0; height:100%;">
+            <% if a_listing.photos.attached? %>
+              <div style="margin-bottom:12px;">
+                <%= image_tag(a_listing.photos.first, style: "width:100%; height:220px; object-fit:cover; border-radius:12px; display:block;") %>
+              </div>
+            <% end %>
+
+            <h3 style="margin-bottom:6px;">
+              <%= a_listing.title.presence || "Listing ##{a_listing.id}" %>
+            </h3>
+
+            <p style="margin-bottom:6px; color:#5b6773;">
+              <%= a_listing.neighborhood %>
+            </p>
+
+            <p style="margin-bottom:6px;">
+              $<%= a_listing.monthly_rent %> / month
+            </p>
+
+            <p style="margin-bottom:0; color:#5b6773;">
+              <%= a_listing.bedrooms %> bd · <%= a_listing.bathrooms %> ba
+            </p>
+          </article>
+        </a>
       <% end %>
-    </ul>
+    </div>
   <% else %>
     <p>
       No listings available right now.
